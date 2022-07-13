@@ -1,7 +1,7 @@
 export interface IBoardRow {
     id: number,
     created_at: Date,
-    board: string,
+    title: string,
     owner_id: string
 }
 

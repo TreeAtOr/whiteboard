@@ -8,7 +8,7 @@ import { Rect } from "konva/lib/shapes/Rect";
 import { Transformer } from "konva/lib/shapes/Transformer";
 import { Stage } from "konva/lib/Stage";
 import { Transform } from "konva/lib/Util";
-import { IBoardItem } from "./supabase/IBoardItem";
+import { IBoardItem } from "../model/IBoardItem";
 
 const DEFAULT_SELECT_RECT_PARAMS = {
     fill: 'rgba(0,0,255,0.5)',

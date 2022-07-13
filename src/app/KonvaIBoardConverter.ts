@@ -1,5 +1,5 @@
 import { Shape, ShapeConfig } from "konva/lib/Shape";
-import { IBoardItem } from "./supabase/IBoardItem";
+import { IBoardItem } from "../model/IBoardItem";
 
 export default class KonvaIBoardConverter {
     private items: Map<string, (id: string, style: ShapeConfig, attrs: ShapeConfig) => Shape | Promise<Shape>>;

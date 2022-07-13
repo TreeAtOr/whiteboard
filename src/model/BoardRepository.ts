@@ -10,7 +10,7 @@ export class BoardRepository {
 
     public async create(title: string) {
         const { data, error } = await this.supabase.from<IBoardRow>('boards').insert([
-            { board: `{"title":"${title}","items":[]}` }
+            { title }
         ])
         console.log(data, error);
         if (!data) return null
