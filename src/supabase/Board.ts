@@ -1,4 +1,4 @@
-import { RealtimeSubscription, SupabaseClient } from "@supabase/supabase-js"
+import { RealtimeSubscription, SupabaseClient, SupabaseRealtimePayload } from "@supabase/supabase-js"
 import { IBoardItem } from "./IBoardItem"
 import { IBoardMember, IBoardRow } from "./schema"
 import { WithID } from "./utils"
@@ -13,17 +13,18 @@ export default class Board {
     public readonly id: number
     public readonly realtime?: RealtimeSubscription
 
-    public data:  IBoard
+    public onUpdate: (payload: SupabaseRealtimePayload<IBoardItem>) => void
+    public onInsert: (payload: SupabaseRealtimePayload<IBoardItem>) => void
+    public onDelete: (payload: SupabaseRealtimePayload<IBoardItem>) => void
 
-    public onUpdate: (payload: any) => void
 
     constructor(supabase: SupabaseClient, id: number) {
         this.supabase = supabase
-        this.realtime = this.supabase.from<IBoardRow>(`realtime:public:boards:id=eq.${id}`).on('UPDATE', payload => {
-            //TODO add data validation
-            this.data = JSON.parse(payload.new.board)
-            this.onUpdate(payload)
-        }).subscribe()
+        this.realtime = this.supabase.from<IBoardItem>(`board-items:board_id=eq.${id}`)
+            .on('UPDATE', payload => this.onUpdate(payload))
+            .on('INSERT', payload => this.onInsert(payload))
+            .on('DELETE', payload => this.onDelete(payload))
+            .subscribe()
         this.id = id
     }
 
@@ -39,38 +40,40 @@ export default class Board {
         return data
     }
 
-    public async update() {
-        const { data, error } = await this.supabase.from<IBoardRow>('board').update({ id: this.id, board: JSON.stringify(this.data) })
-        return data
-    }
-
     public async uploadImage(filename: string, file: Blob) {
         const { data, error } = await this.supabase.storage.from('content').upload(`${this.id}/${filename}`, file)
+        error && console.error(error);
         return data
     }
 
     public async downloadImage(filename: string) {
         const { data, error } = await this.supabase.storage.from('content').download(`${this.id}/${filename}`)
+        error && console.error(error);
         return data
     }
 
     public async addItem(item: IBoardItem) {
-        const _item : WithID<IBoardItem> = item
-
-        this.data.items.push({...item,id: self.crypto.randomUUID()})
-        return this.update()
+        const { data, error } = await this.supabase.from<IBoardItem>('board-items').insert(item)
+        error && console.error(error);
+        return data
     }
 
     public async removeItem(id: string) {
-        this.data.items = this.data.items.filter((item) => item.id !== id)
-        return this.update()
+        const { data, error } = await this.supabase.from<IBoardItem>('board-items').delete().match({ id })
+        error && console.error(error);
+        return data
     }
 
-    public async mutateItem(item: WithID<IBoardItem>) {
-        const oldI = this.data.items.findIndex(v => v.id === item.id)
-        if(!~oldI) return null
-        this.data.items[oldI] = item
-        return this.update()
+    public async mutateItem(item: Partial<IBoardItem>) {
+        const { data, error } = await this.supabase.from<IBoardItem>('board-items').update(item).match({ id: item.id })
+        error && console.error(error);
+        return data
+    }
+
+    public async loadItems() {
+        const { data, error } = await this.supabase.from<IBoardItem>('board-items').select().match({ board_id: this.id })
+        error && console.error(error);
+        return data
     }
 
 }

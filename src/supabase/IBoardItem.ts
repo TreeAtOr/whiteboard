@@ -1,3 +1,5 @@
+import { ShapeConfig } from "konva/lib/Shape"
+
 export interface ITextItem {
     type: "text"
 }
@@ -13,5 +15,10 @@ export interface IImageItem {
 export interface ILineItem {
     type: "line"
 }
-
-export type IBoardItem = ITextItem | IRectItem | IImageItem | ILineItem
+export type IBoardItem = {
+    id: string,
+    type: string,
+    style?: string,
+    attrs: ShapeConfig,
+    board_id: number
+}
