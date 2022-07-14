@@ -3,11 +3,6 @@ import { IBoardItem } from "./IBoardItem"
 import { IBoardMember, IBoardRow } from "./schema"
 import { WithID } from "./utils"
 
-export interface IBoard {
-    title: string,
-    items: Array<WithID<IBoardItem>>
-}
-
 export default class Board {
     private readonly supabase: SupabaseClient
     public readonly id: number

@@ -6,7 +6,7 @@ import { SUPABASE_TEST_KEY, SUPABASE_TEST_URL, TEST_IMAGE_URL, TEST_USER_CREDENT
 describe('Supabase Repository', () => {
     let repo: SupabaseRepository
     it('can bee created', () => {
-        repo = new SupabaseRepository(SUPABASE_TEST_URL, SUPABASE_TEST_KEY)
+       // repo = new SupabaseRepository(SUPABASE_TEST_URL, SUPABASE_TEST_KEY)
     })
 
     describe('User Repository', () => {

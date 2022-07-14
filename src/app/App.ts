@@ -1,5 +1,6 @@
 import { SupabaseRepository } from '../model/SupabaseRepository'
 import IView from '../utils/IView'
+import { BoardListView } from '../view/BoardListView/BoardListView'
 
 interface ILoginPageViewTagsID {
   "sign-up": string,
@@ -31,7 +32,9 @@ export class LoginPageView implements IView {
 }
 
 export interface AppState {
-  board_id?: string
+  activeView: "board" | "board-list" | "login"
+  board_id?: string,
+  tool: string
 }
 
 export class App {
@@ -39,31 +42,24 @@ export class App {
   state: AppState;
   constructor(SUPABASE_URL: string, SUPABASE_KEY: string) {
     this.supabase = new SupabaseRepository(SUPABASE_URL, SUPABASE_KEY)
+    this.state = { activeView: "board-list", tool: "rect" }
 
-    this.state = {}
-  }
-  public init() {
+    this.supabase.boards.list().then(list => {
+      const listView = new BoardListView(list)
+      listView.onMove = (id: string) => {
 
-
-
-  }
-  signUpSubmitted(ev: any): any {
-    ev.preventDefault()
-    const email = ev.target[0].value
-    const password = ev.target[1].value
-
-    this.supabase.user.singUp(email, password)
-  }
-
-  logInSubmitted(ev: any): any {
-    ev.preventDefault()
-    const email = ev.target[0].value
-    const password = ev.target[1].value
-
-    this.supabase.user.signIn(email, password)
+      }
+      listView.onCreate = () => {
+        this.supabase.boards.create(prompt("board name", "New board"))
+      }
+      listView.onDelete = (id: string) => {
+        alert("Board deletion is not implemented")
+      }
+      this.mount(listView).then(()=> listView.activate())
+    })
   }
 
-  logoutSubmitted(ev: any): any {
-    this.supabase.user.signOut()
+  private async mount(view: IView) {
+    document.querySelector('body').innerHTML = view.render()
   }
 }

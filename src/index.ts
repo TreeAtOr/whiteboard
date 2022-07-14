@@ -8,9 +8,12 @@ import { BoardView } from './view/BoardView/BoardView'
 
 import './styles.css'
 
+document.addEventListener('DOMContentLoaded', async () => {
+  //@ts-ignore
+  window.app = new App(SUPABASE_URL, SUPABASE_KEY)
+})
 
-const view = new BoardView()
-document.querySelector('body').innerHTML = view.render()
+
 
 /*
 
