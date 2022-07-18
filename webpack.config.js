@@ -3,6 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 const { VueLoaderPlugin } = require('vue-loader')
 
 const isProduction = process.env.NODE_ENV == "production";
@@ -25,6 +26,9 @@ const config = {
 
     new MiniCssExtractPlugin(),
     new VueLoaderPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: "public", to: "." }]
+    }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
