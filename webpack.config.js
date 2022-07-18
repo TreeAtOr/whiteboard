@@ -3,6 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { VueLoaderPlugin } = require('vue-loader')
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -23,7 +24,7 @@ const config = {
     }),
 
     new MiniCssExtractPlugin(),
-
+    new VueLoaderPlugin(),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
@@ -35,16 +36,16 @@ const config = {
         exclude: ["/node_modules/"],
       },
       {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      {
         test: /\.css$/i,
         use: [stylesHandler, "css-loader"],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",
-      },
-      {
-        test: /\.t.html/,
-        type: 'asset/source',
       }
 
       // Add your rules for custom modules here

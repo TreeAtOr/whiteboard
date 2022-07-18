@@ -3,10 +3,9 @@ import { SUPABASE_URL, SUPABASE_KEY } from './data/const'
 import { App } from './app/App'
 import Scene from './app/Scene'
 
-
-import { BoardView } from './view/BoardView/BoardView'
-
 import './styles.css'
+
+
 
 document.addEventListener('DOMContentLoaded', async () => {
   //@ts-ignore
