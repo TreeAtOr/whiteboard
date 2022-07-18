@@ -12,7 +12,7 @@
       </p>
     </div>
 
-    <form @submit="onSubmit" stop prevent id="login-form">
+    <form @submit.prevent="onSubmit" stop id="login-form">
       <input
         v-model="username"
         
