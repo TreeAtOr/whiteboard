@@ -19,7 +19,7 @@ export class BoardRepository {
     }
 
     public async list() {
-        const { data, error } = await this.supabase.from<IBoardRow>('boards').select()
+        const { data, error } = await this.supabase.from<IBoardRow>('boards').select().order('created_at',{ascending: false})
         console.log(data, error);
         return data
     }

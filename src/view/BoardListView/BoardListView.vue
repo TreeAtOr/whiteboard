@@ -19,7 +19,7 @@
 
     <div id="content">
       <board-component
-        v-for="item in getList()"
+        v-for="item in listItems"
         :key="item.id"
         :id="item.id"
         :title="item.title"
@@ -34,6 +34,11 @@
 import HeaderComponent from "../Header/HeaderComponent.vue";
 import BoardComponent from "./BoardComponent/BoardComponent.vue";
 export default {
+  data() {
+    return {
+      list: this.getList(),
+    };
+  },
   props: {
     getList: Function,
     setBoard: Function,
@@ -45,10 +50,11 @@ export default {
     HeaderComponent,
   },
   computed: {
-    listItems(){
-      const list = this.getList()
-      
-    }
+    listItems() {
+      if (this.list instanceof Promise)
+        this.list.then((res) => (this.list = res));
+      return this.list;
+    },
   },
   methods: {
     async onMove(id) {
