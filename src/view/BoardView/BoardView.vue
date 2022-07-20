@@ -1,5 +1,5 @@
 <template>
-  <header-component :title="Whiteboard" />
+  <header-component :title="'Whiteboard'" />
   {{ $route.params.id }}
   <section class="intro">
     <div class="field">
