@@ -51,7 +51,7 @@ export default {
         id: crypto.randomUUID(),
         type: "line",
         attrs: {
-          points: [10, 20, 30, 40],
+          points: [10, 20, 50, 20],
         },
         board_id: this.getBoard().id,
       });
@@ -85,6 +85,10 @@ export default {
         board_id: this.getBoard().id,
       });
     },
+  },
+
+  onPlus() {
+    this.getBoard().addMember(prompt('write user id'))
   },
 
   mounted() {
