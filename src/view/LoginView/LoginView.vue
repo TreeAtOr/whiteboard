@@ -1,64 +1,87 @@
 <template>
-  <main id="main-holder">
-    <div>
-      <h1 id="login-header">Добро пожаловать в мир досок!</h1>
-    </div>
-    <h2 id="login or registration">Войдите или зарегистрируйтесь</h2>
+ <main id="main-holder">
+
+  <div>
+   <h1 id="login-header">Добро пожаловать в мир досок!</h1>
+  </div>
+
+  <div class="form-box">
+   <div class="button-box">
+    <div id="btn"></div>
 
     <div v-if="status" id="login-error-msg-holder">
-      <p id="login-error-msg">
-        "Неверно введена электронная почта или пароль"
-        <span id="error-msg-second-line"></span>
-      </p>
+     <p id="login-error-msg">
+      "Неверно введена электронная почта или пароль"
+      <span id="error-msg-second-line"></span>
+     </p>
     </div>
 
-    <form @submit="onSubmit" stop prevent id="login-form">
-      <input
-        v-model="username"
-        
-        type="text"
-        name="username"
-        id="username-field"
-        class="login-form-field"
-        placeholder="username@domain.zone"
-      />
-      <input
-        v-model="password"
-        type="password"
-        name="password"
-        id="password-field"
-        class="login-form-field"
-        placeholder="Password"
-      />
-      <input type="submit" value="Login" id="login-form-submit" />
-    </form>
-  </main>
+    <button type="button" class="toggle-btn" @click="switchLogin(true)">Вход</button>
+    <button type="button" class="toggle-btn" @click="switchLogin(false)">Регистрация</button>
+   </div>
+
+   <form v-if="isLogin" @submit.prevent="onSubmit" stop prevent id="login-form" class="input-group">
+
+    <input v-model="username" type="text" name="username" id="username-field" class="login-form-field"
+     placeholder="username@domain.zone" required>
+
+    <input v-model="password" type="password" name="password" id="password-field" class="login-form-field"
+     placeholder="Password" required>
+
+
+    <input type="checkbox" class="checkbox"><span>Запомнить пароль</span>
+    <button type="submit" value="Login" id="login-form-submit" class="submit-btn">
+     Вход</button>
+   </form>
+
+   <form v-if="!isLogin" @submit.prevent="onSubmit" stop prevent id="register-form" class="input-group">
+
+    <input v-model="username" type="text" name="username" id="username-field" class="login-form-field"
+     placeholder="username@domain.zone" required>
+
+    <input v-model="password" type="password" name="password" id="password-field" class="login-form-field"
+     placeholder="Password" required>
+
+    <input type="text" class="login-form-field" placeholder="Email" required>
+
+    <button type="submit" value="Login" id="login-form-submit" class="submit-btn">Регистрация</button>
+
+   </form>
+  </div>
+ </main>
 </template>
 
-<script>
-export default {
+ <script>
+ 
+ export default {
   data() {
-    return {
-      username: "",
-      password: "",
-      status: "false",
-    };
+   return {
+    username: "",
+    password: "",
+    status: "false",
+    isLogin: false
+       };
   },
   props: ["getRouter", "auth"],
   methods: {
-    async onSubmit() {
-      console.log(this.username);
-      const pro = await this.$props.auth(
-        "login",
-        this.username,
-        this.password
-      );
-      console.log(pro);
-      this.$props.getRouter().push("/");
-    },
+   async onSubmit() {
+    console.log(this.username);
+    const pro = await this.$props.auth(
+     "login",
+     this.username,
+     this.password
+    );
+    console.log(pro);
+    this.$props.getRouter().push("/");
+   },
+   switchLogin(isLogin){
+    this.isLogin=isLogin
+   }
   },
-};
-</script>
+ };
+ 
+ 
+ </script>
 
 <style>
 </style>
