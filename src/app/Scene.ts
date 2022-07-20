@@ -167,10 +167,11 @@ export default class Scene {
 
     public async addKonvaItem(item: Shape | Promise<Shape>) {
         item = await item
-        //TODO Optimize it - event listeners os very slow
+
         item.on('transformend', this._transformend.bind(this))
         item.on('dragend', this._transformend.bind(this))
-
+        //@ts-ignore
+        item.onUpdate = this.onUpdate;
         this.layer.add(item)
     }
 

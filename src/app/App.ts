@@ -24,7 +24,7 @@ interface ILoginPageViewTagsID {
 
 export interface AppState {
   board?: Board,
-  list?: IBoardRow[],
+  list?: IBoardRow[] | Promise<IBoardRow[]>,
   tool: string
 }
 
@@ -44,8 +44,10 @@ export class App {
         window.localStorage.setItem("board_id", String(id))
         this.state.board = await this.supabase.boards.board(id)
       },
-      getList: () => {
-        if (!this.state.list) return this.supabase.boards.list().then(res => this.state.list = res)
+      getList: async () => {
+        if (!this.state.list) {
+          this.state.list = this.supabase.boards.list()
+        }
         return this.state.list
       },
       getBoard: () => this.state.board,
@@ -73,9 +75,10 @@ export class App {
         this.scene.onUpdate = (id, attrs) => this.state.board.mutateItem({ id, attrs, board_id: this.state.board.id })
 
       },
+      getScene: () => this.scene
     }
 
-    if(window.localStorage.getItem("board_id")) this.controller.setBoard(window.localStorage.getItem("board_id"))
+    if (window.localStorage.getItem("board_id")) this.controller.setBoard(window.localStorage.getItem("board_id"))
 
     const routes = [
       { path: '/', name: 'list', component: BoardListView, props: this.controller },
@@ -93,7 +96,9 @@ export class App {
     this.vue.mount('#root')
 
     if (!this.supabase.user.details) this.router.push('/auth')
-    else this.supabase.boards.list().then(res => this.state.list = res)
+    else {
+      this.supabase.boards.list().then(res => this.state.list = res)
+    }
   }
 
 

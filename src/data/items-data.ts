@@ -4,6 +4,8 @@ import { Rect } from 'konva/lib/shapes/Rect'
 import { Text } from 'konva/lib/shapes/Text'
 import { Line } from 'konva/lib/shapes/Line'
 import { Image } from 'konva/lib/shapes/Image'
+import { Transformer } from 'konva/lib/shapes/Transformer'
+import { Stage } from 'konva/lib/Stage'
 
 const convertor = new KonvaIBoardConverter()
 
@@ -32,7 +34,48 @@ convertor.registerItem("rect", (id, style, attrs) => {
 })
 
 convertor.registerItem("text", (id, style, attrs) => {
-    return new Text({ ...style, ...attrs, id });
+    const text: Text = new Text({ ...style, ...attrs, id });
+
+    text.on('dblclick dbltap', function () {
+        // create textarea over canvas with absolute position
+
+        // first we need to find position for textarea
+        // how to find it?
+
+        // at first lets find position of text node relative to the stage:
+        var textPosition = text.getAbsolutePosition();
+
+        // then lets find position of stage container on the page:
+        var stageBox = (this.getParent().getParent() as Stage).container().getBoundingClientRect();
+
+        // so position of textarea will be the sum of positions above:
+        var areaPosition = {
+            x: stageBox.left + textPosition.x,
+            y: stageBox.top + textPosition.y,
+        };
+
+        var textarea = document.createElement('textarea');
+        document.body.appendChild(textarea);
+
+        textarea.value = text.text();
+        textarea.style.position = 'absolute';
+        textarea.style.top = areaPosition.y + 'px';
+        textarea.style.left = areaPosition.x + 'px';
+        textarea.style.width = String(text.width());
+
+        textarea.focus();
+
+        textarea.addEventListener('keydown', function (e) {
+            // hide on enter
+            if (e.keyCode === 13) {
+                text.text(textarea.value);
+                //@ts-ignore
+                text.onUpdate(id, text.attrs)
+                document.body.removeChild(textarea);
+            }
+        });
+    });
+    return text
 })
 
 convertor.registerItem("line", (id, style, attrs) => {
