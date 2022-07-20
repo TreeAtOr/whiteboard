@@ -8,19 +8,19 @@
       <div class="button-box">
         <div id="btn"></div>
 
-        <div v-if="status" id="login-error-msg-holder">
-          <p id="login-error-msg">
-            "Неверно введена электронная почта или пароль"
-            <span id="error-msg-second-line"></span>
-          </p>
-        </div>
-
         <button type="button" class="toggle-btn" @click="switchLogin(true)">
           Вход
         </button>
         <button type="button" class="toggle-btn" @click="switchLogin(false)">
           Регистрация
         </button>
+      </div>
+
+      <div v-if="status" id="login-error-msg-holder">
+        <p id="login-error-msg">
+          "Неверно введена электронная почта или пароль"
+          <span id="error-msg-second-line"></span>
+        </p>
       </div>
 
       <form
@@ -51,7 +51,6 @@
           required
         />
 
-        <input type="checkbox" class="checkbox" /><span>Запомнить пароль</span>
         <button
           type="submit"
           value="Login"
@@ -67,7 +66,7 @@
         @submit.prevent="onSingUp"
         stop
         prevent
-        id="register-form"
+        id="login-form"
         class="input-group"
       >
         <input

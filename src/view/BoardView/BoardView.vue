@@ -1,24 +1,28 @@
 <template>
-  <header-component :title="Whiteboard" />
-  {{ $route.params.id }}
-  <section class="intro">
-    <div class="field">
-      <div id="konva-container" ref="konva"></div>
-      <div class="tools">
-        <button @click="onImage" id="image-tool"><img alt="" src="foto.png" /></button>
-        <button @click="onRect" id="rect-tool">
-          <img alt="" src="rectangle.png" />
-        </button>
-        <button @click="onLine" id="line-tool">
-          <img alt="" src="Vector.png" />
-        </button>
-        <button @click="onText" id="text-tool">
-          <img alt="" src="text.png" />
-        </button>
-        <button id="plus-tool"><img alt="" src="plus.png" /></button>
+  <div id="wrapper">
+    <header-component :title="'Whiteboard'" />
+    {{ $route.params.id }}
+    <section class="intro">
+      <div class="field">
+        <div id="konva-container" ref="konva"></div>
+        <div class="tools">
+          <button @click="onImage" id="image-tool">
+            <img alt="" src="foto.png" />
+          </button>
+          <button @click="onRect" id="rect-tool">
+            <img alt="" src="rectangle.png" />
+          </button>
+          <button @click="onLine" id="line-tool">
+            <img alt="" src="Vector.png" />
+          </button>
+          <button @click="onText" id="text-tool">
+            <img alt="" src="text.png" />
+          </button>
+          <button id="plus-tool"><img alt="" src="plus.png" /></button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -88,7 +92,7 @@ export default {
   },
 
   onPlus() {
-    this.getBoard().addMember(prompt('write user id'))
+    this.getBoard().addMember(prompt("write user id"));
   },
 
   mounted() {

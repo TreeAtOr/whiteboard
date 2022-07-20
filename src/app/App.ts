@@ -65,7 +65,7 @@ export class App {
       },
       createBoard: (title: string) => this.supabase.boards.create(title).then((res) => this.state.board = res),
       mountScene: () => {
-        this.scene = new Scene('konva-container', 500, 500);
+        this.scene = new Scene('konva-container', 900, 700);
         this.state.board.loadItems().then((items) => items.forEach((item) => this.scene.addKonvaItem(convertor.convertItem(item))))
 
         this.state.board.onInsert = (item) => this.scene.addKonvaItem(convertor.convertItem(item.new))

@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <button>
+      <button class="boarder_title">
         <h1>{{ title }}</h1>
       </button>
       <button @click="_onMove" id="move">

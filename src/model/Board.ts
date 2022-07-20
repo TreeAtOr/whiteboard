@@ -16,9 +16,9 @@ export default class Board {
     constructor(supabase: SupabaseClient, id: number) {
         this.supabase = supabase
         this.realtime = this.supabase.from<IBoardItem>(`board-items:board_id=eq.${id}`)
-            .on('UPDATE', payload => this.onUpdate(payload))
-            .on('INSERT', payload => this.onInsert(payload))
-            .on('DELETE', payload => this.onDelete(payload))
+            .on('UPDATE', payload => console.log("UPDATE",this.onUpdate(payload)))
+            .on('INSERT', payload => console.log("INSERT",this.onInsert(payload)))
+            .on('DELETE', payload => console.log("DELETE",this.onDelete(payload)))
             .subscribe()
         this.id = id
     }
@@ -50,6 +50,8 @@ export default class Board {
     public async addItem(item: IBoardItem) {
         const { data, error } = await this.supabase.from<IBoardItem>('board-items').insert(item)
         error && console.error(error);
+        //@ts-ignore
+        this.onInsert({old: item, new: item})
         return data
     }
 
@@ -68,6 +70,7 @@ export default class Board {
     public async loadItems() {
         const { data, error } = await this.supabase.from<IBoardItem>('board-items').select().match({ board_id: this.id })
         error && console.error(error);
+        
         return data
     }
 

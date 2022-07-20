@@ -53,7 +53,12 @@ export default {
     listItems() {
       if (this.list instanceof Promise)
         this.list.then((res) => (this.list = res));
-      return this.list;
+      try {
+        const calc = this.list.slice(0, 5);
+        return calc;
+      } finally {
+        return this.list;
+      }
     },
   },
   methods: {
