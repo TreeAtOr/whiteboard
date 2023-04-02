@@ -1,53 +1,35 @@
-# 🚀 Welcome to your new awesome project!
+# Доска для совместного редактирования на TypeScript, Vue и Supabase
 
-This project has been created using **webpack-cli**, you can now run
+## Описание проекта
+
+Это приложение представляет собой доску для совместного мознового штурма, разработанную на TypeScript, Vue и Supabase. Это инструмент, который поможет командам совместно работать над задачами и делиться идеями в режиме реального времени.
+
+## Стек технологий
+
+- TypeScript
+- Vue.js
+- Supabase
+
+## Установка
+
+- Склонируйте репозиторий
+- Установите зависимости: `npm install`
+- Создайте файл `.env` и добавьте в него переменные окружения для Supabase
 
 ```
-npm run build
+SUPABASE_URL=
+SUPABASE_KEY=
 ```
 
-or
+- Запустите приложение: `npm run serve`
 
-```
-yarn build
-```
+## Функциональность
 
-to bundle your application
+- Создание досок и задач
+- Редактирование задач
+- Перетаскивание задач между досками
+- Пользовательская авторизация и регистрация через Supabase
 
+## Лицензия
 
-    <div class='container'>
-        <div class='section'>
-            <h1>Supabase Auth Example</h1>
-        </div>
-        <div class='section'>
-            <form id='sign-up'>
-                <h3>Sign Up</h3>
-                <label>Email</label><input type='email' name='email' />
-                <label>Password</label><input type='password' name='password' />
-                <input type='submit'>
-            </form>
-        </div>
-        <div class='section'>
-            <form id='log-in'>
-                <h3>Log In</h3>
-                <label>Email</label><input type='email' name='email' />
-                <label>Password</label><input type='password' name='password' />
-                <input type='submit'>
-            </form>
-        </div>
-        <div class='section'>
-            <h3>Select board</h3>
-            <select id="boards-list"></select>
-            Or
-            <button id="create-board-button">Create new one</button>
-        </div>
-        <div class='section'>
-            <h3>Logout</h3>
-            <button id='logout-button'>Logout</button>
-        </div>
-    </div>
-    <div id='konva-container'></div>
-    <button id="delete-button">DELETE SELECTED</button>
-    <button id="new-image-button">NEW IMAGE</button>
-    <button id="new-rect-button">NEW RECT</button>
-    <button id="new-line-button">NEW LINE</button>
+Данный проект распространяется под лицензией [MIT](https://choosealicense.com/licenses/mit/).
